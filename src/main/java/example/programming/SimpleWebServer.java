@@ -24,7 +24,7 @@ public class SimpleWebServer {
   }
 
   public void run() throws IOException {
-    for (;;) {
+    // for (;;) {
       sock = ss.accept();
       InputStream is = sock.getInputStream();
       OutputStream os = sock.getOutputStream();
@@ -46,7 +46,7 @@ public class SimpleWebServer {
         }
       }
 
-    }
+    // }
   }
 
   public String execute(String cmd) {

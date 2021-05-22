@@ -10,8 +10,8 @@ public class Main
 
         robot.init();
 
-        while (robot.periodic())
-            Delay.msDelay(50);
+        while (robot.periodic());
+            // Delay.msDelay(10);  //  20? 10?
         
         System.exit(0);
     }
