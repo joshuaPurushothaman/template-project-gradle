@@ -1,9 +1,7 @@
-package example.Josh.util.sensors;
-
-import org.slf4j.LoggerFactory;
+package example.josh.util.sensors;
 
 import ev3dev.sensors.ev3.EV3ColorSensor;
-import example.Josh.util.IPeriodicSubsystem;
+import example.josh.util.IPeriodicSubsystem;
 import lejos.robotics.SampleProvider;
 
 public class ColorSensorRedMode implements IPeriodicSubsystem

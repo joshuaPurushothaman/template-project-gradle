@@ -1,22 +1,21 @@
 package example;
 
-import java.io.IOException;
+import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ev3dev.sensors.ev3.EV3IRSensor;
-import example.Josh.subsystems.*;
-import example.Josh.util.sensors.*;
-import example.programming.SimpleWebServer;
+import example.josh.subsystems.*;
+import example.josh.util.sensors.*;
 import lejos.hardware.port.SensorPort;
 
-public class Robot
+public class Robot extends TimerTask
 {
-    OdomDrivetrain dt;
+    OdomDrivetrain dt = new OdomDrivetrain();
     Remote remote = new Remote(new EV3IRSensor(SensorPort.S2));
-    SimpleWebServer webServer;
-    
+    CommandExecutor auto = new CommandExecutor(dt);
+
     public static Logger LOGGER = LoggerFactory.getLogger(Robot.class);
 
     /**
@@ -24,48 +23,30 @@ public class Robot
      */
     public void init()
     {
-        dt = new OdomDrivetrain();  //  initialized here to not use static initialization and have Sysfs errors
-
-        // try
-        // {
-        //     webServer = new SimpleWebServer();
-        // }
-        // catch (IOException e) 
-        // { 
-        //     LOGGER.error("Error creating webserver: " + e.toString());
-        // }
+        auto.init(auto::selectSquarePath);
     }
 
     /**
-     * Gets executed periodically
-     * @return whether to continue or not
+     * Gets executed periodically.
      */
-    public boolean periodic()
+    public void run()
     {
         dt.updatePeriodic();
         remote.updatePeriodic();
 
-        double speedMult = 0.25;
-
+        // double speedMult = 0.4;
         // dt.tankDrive
         // (
         //     (int) (dt.getMaxSpeedDegreesPerSecond() * remote.getLeft() * speedMult),
         //     (int) (dt.getMaxSpeedDegreesPerSecond() * remote.getRight() * speedMult)
         // );
+
         // dt.followLine();
 
-        dt.driveToDistance(0.7);
-        
+        // dt.driveToDistance2(0.5);
+        // dt.turnToAngle(90);
+        auto.periodic();
+
         LOGGER.info(dt.toString());
-
-        // try {
-        //     webServer.run();
-        // } catch (IOException e) {
-        //     LOGGER.error(e.toString());
-        // }
-
-        // webServer.execute("hello");
-
-        return true;
     }
 }

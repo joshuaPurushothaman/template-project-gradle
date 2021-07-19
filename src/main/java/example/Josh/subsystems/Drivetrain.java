@@ -1,4 +1,4 @@
-package example.Josh.subsystems;
+package example.josh.subsystems;
 
 import ev3dev.actuators.lego.motors.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
@@ -8,10 +8,21 @@ public class Drivetrain
     EV3LargeRegulatedMotor lMotor;
     EV3LargeRegulatedMotor rMotor;
     
+    double leftOutput, rightOutput;
+
     public Drivetrain()
     {
-        lMotor = new EV3LargeRegulatedMotor(MotorPort.B);
-        rMotor = new EV3LargeRegulatedMotor(MotorPort.C);
+        boolean hasMotorCreationError = false;
+        do {
+            try {
+                lMotor = new EV3LargeRegulatedMotor(MotorPort.B);
+                rMotor = new EV3LargeRegulatedMotor(MotorPort.C);
+                
+                hasMotorCreationError = false;
+            } catch (Exception e) {
+                hasMotorCreationError = true;
+            }
+        } while (hasMotorCreationError);
 
         //To Stop the motor in case of pkill java for example
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -21,9 +32,6 @@ public class Drivetrain
                 rMotor.flt(true);
             }
         }));
-
-        lMotor.suspendRegulation();
-        rMotor.suspendRegulation();
     }
 
     /**
@@ -35,6 +43,11 @@ public class Drivetrain
     {
         lMotor.setSpeed(-leftSpeed);
         rMotor.setSpeed(-rightSpeed);
+        lMotor.forward();
+        rMotor.forward();
+        
+        leftOutput = leftSpeed;
+        rightOutput = rightSpeed;
     }
 
     /**
@@ -51,10 +64,18 @@ public class Drivetrain
     {
         lMotor.brake();
         rMotor.brake();
+        lMotor.stop();
+        lMotor.stop();
     }
 
     public double getMaxSpeedDegreesPerSecond()
     {
         return lMotor.getMaxSpeed();
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("Left: %3.2f, Right: %3.2f", leftOutput, rightOutput);
     }
 }

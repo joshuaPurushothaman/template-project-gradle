@@ -1,9 +1,9 @@
-package example.Josh.subsystems;
+package example.josh.subsystems;
 
 import ev3dev.sensors.ev3.*;
-import example.Josh.util.IPeriodicSubsystem;
-import example.Josh.util.alg.PIDController;
-import example.Josh.util.sensors.*;
+import example.josh.util.IPeriodicSubsystem;
+import example.josh.util.alg.PIDFController;
+import example.josh.util.sensors.*;
 import lejos.hardware.port.SensorPort;
 
 public class SensorDrivetrain extends Drivetrain implements IPeriodicSubsystem
@@ -26,7 +26,7 @@ public class SensorDrivetrain extends Drivetrain implements IPeriodicSubsystem
         gyro.updatePeriodic();
     }
 
-    PIDController lineFollower = new PIDController(3, 0, 0.5);
+    PIDFController lineFollower = new PIDFController(3, 0, 0.5, 0);
     public void followLine()
     {
         int output = (int) -lineFollower.calculate(leftColorSensor.getAmbience() - rightColorSensor.getAmbience(), 0);

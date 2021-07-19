@@ -1,25 +1,26 @@
-package example.Josh.util.alg;
+package example.josh.util.alg;
 
-import example.Josh.util.EzMath;
+import example.josh.util.EzMath;
 
-public class PIDController
+public class PIDFController
 {
 	double iErr = 0, lastError = 0;
 
-	double kP, kI, kD, minOutput, maxOutput, iZone, allowableError;
+	double kP, kI, kD, kFF, minOutput, maxOutput, iZone, allowableError;
 
 	double error;
 
-	public PIDController(double kP, double kI, double kD)
+	public PIDFController(double kP, double kI, double kD, double kFF)
 	{
-		this(kP, kI, kD, Double.MIN_VALUE, Double.MAX_VALUE, 0, 0);
+		this(kP, kI, kD, kFF, -Double.MAX_VALUE, Double.MAX_VALUE, 0, 0);
 	}
 
-	public PIDController(double kP, double kI, double kD, double minOutput, double maxOutput, double iZone, double allowableError)
+	public PIDFController(double kP, double kI, double kD, double kFF, double minOutput, double maxOutput, double iZone, double allowableError)
 	{
 		this.kP = kP;
 		this.kI = kI;
 		this.kD = kD;
+		this.kFF = kFF;
 		this.minOutput = minOutput;
 		this.maxOutput = maxOutput;
 		this.iZone = iZone;
@@ -42,7 +43,8 @@ public class PIDController
 		// Output.
 		double output = kP * error + 
 						iTerm + 
-						kD * dErr;
+						kD * dErr +
+						kFF * setpoint;
 
 		output = EzMath.clamp(output, minOutput, maxOutput);
 

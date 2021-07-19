@@ -1,7 +1,7 @@
-package example.Josh.util.sensors;
+package example.josh.util.sensors;
 
 import ev3dev.sensors.ev3.EV3GyroSensor;
-import example.Josh.util.IPeriodicSubsystem;
+import example.josh.util.IPeriodicSubsystem;
 import lejos.robotics.SampleProvider;
 
 public class Gyro implements IPeriodicSubsystem

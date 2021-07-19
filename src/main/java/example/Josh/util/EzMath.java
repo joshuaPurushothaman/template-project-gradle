@@ -1,4 +1,4 @@
-package example.Josh.util;
+package example.josh.util;
 
 public class EzMath
 {

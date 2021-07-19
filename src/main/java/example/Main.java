@@ -1,18 +1,20 @@
 package example;
 
-import lejos.utility.Delay;
+import java.util.Timer;
 
 public class Main
 {
     public static void main(final String[] args)
     {
         Robot robot = new Robot();
+        // VisionTestRobot robot = new VisionTestRobot();
 
         robot.init();
 
-        while (robot.periodic());
-            // Delay.msDelay(10);  //  20? 10?
+        Timer timer = new Timer();
         
-        System.exit(0);
+        final long periodMs = 10;
+        
+        timer.scheduleAtFixedRate(robot, 0, periodMs);
     }
 }

@@ -23,6 +23,7 @@ dependencies {
     implementation("com.github.ev3dev-lang-java:ev3dev-lang-java:2.6.2-SNAPSHOT")
     implementation 'com.github.ev3dev-lang-java:lejos-navigation:0.2.3-SNAPSHOT'
     compileOnly("nu.pattern:opencv:2.4.9-7")
+    // implementation group: 'org.bytedeco', name: 'javacv-platform', version: '1.5.5'
 }
 
 compileJava.options.encoding = 'UTF-8'
